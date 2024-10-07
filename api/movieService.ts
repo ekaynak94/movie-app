@@ -48,7 +48,7 @@ interface MovieDetail {
 
 // API base configuration
 const API_BASE_URL = "https://movie-database-alternative.p.rapidapi.com/";
-const API_KEY = "";
+const API_KEY = process.env.EXPO_PUBLIC_RAPIDAPI_KEY || "";
 
 // Function to fetch movies based on a query
 export const getMovies = async (query: string): Promise<MovieResponse> => {
