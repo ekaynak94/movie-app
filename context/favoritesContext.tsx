@@ -1,5 +1,12 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  ReactNode,
+} from "react";
 import { MovieDetails } from "../types/movieTypes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type FavoritesContextType = {
   favorites: { [id: string]: MovieDetails }; // Store favorites as an object with movie IDs as keys
@@ -13,6 +20,8 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(
   undefined
 );
 
+const FAVORITES_STORAGE_KEY = "FAVORITES";
+
 // Provider component
 export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -21,6 +30,42 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
   const [favorites, setFavorites] = useState<{ [id: string]: MovieDetails }>(
     {}
   );
+
+  // Load favorites from AsyncStorage when the app starts
+  useEffect(() => {
+    const loadFavorites = async () => {
+      try {
+        const storedFavorites = await AsyncStorage.getItem(
+          FAVORITES_STORAGE_KEY
+        );
+        if (storedFavorites) {
+          setFavorites(JSON.parse(storedFavorites));
+        }
+      } catch (error) {
+        console.error("Failed to load favorites from AsyncStorage:", error);
+      }
+    };
+
+    loadFavorites();
+  }, []);
+
+  // Save favorites to AsyncStorage whenever they change
+  useEffect(() => {
+    const saveFavorites = async () => {
+      try {
+        await AsyncStorage.setItem(
+          FAVORITES_STORAGE_KEY,
+          JSON.stringify(favorites)
+        );
+      } catch (error) {
+        console.error("Failed to save favorites to AsyncStorage:", error);
+      }
+    };
+
+    if (Object.keys(favorites).length > 0) {
+      saveFavorites();
+    }
+  }, [favorites]);
 
   const isFavorite = (id: string) => {
     return !!favorites[id]; // Check if the movie ID exists in the favorites object
