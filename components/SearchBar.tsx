@@ -1,16 +1,21 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+  StyleSheet,
+} from "react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
-interface SearchBarProps {
+type SearchBarProps = {
   query: string;
   onQueryChange: (query: string) => void;
   onSearch: () => void;
   lightColor?: string;
   darkColor?: string;
-}
+};
 
 const SearchBar: React.FC<SearchBarProps> = ({
   query,
@@ -22,7 +27,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return (
-    <ThemedView style={[styles.container, { borderColor: color }]}>
+    <View style={[styles.container, { borderColor: color }]}>
       <TextInput
         style={[{ color }, styles.input]}
         placeholder="Search for movies..."
@@ -31,10 +36,16 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onSubmitEditing={onSearch} // Trigger search when the user presses enter
       />
 
-      <TouchableOpacity onPress={onSearch} activeOpacity={0.8}>
+      <TouchableOpacity
+        onPress={() => {
+          Keyboard.dismiss();
+          onSearch();
+        }}
+        activeOpacity={0.8}
+      >
         <Ionicons name={"search"} size={18} color={color} style={styles.icon} />
       </TouchableOpacity>
-    </ThemedView>
+    </View>
   );
 };
 
