@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { FavoritesProvider } from "@/context/favoritesContext";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,28 +35,30 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="details/[imdbId]"
-          options={({ navigation }) => ({
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons
-                  name="close"
-                  size={24}
-                  color="#fff"
-                  style={{ padding: 16 }}
-                />
-              </TouchableOpacity>
-            ),
-            headerTitle: "",
-            headerTransparent: true,
-            headerShadowVisible: false,
-            presentation: "modal",
-          })}
-        />
-      </Stack>
+      <FavoritesProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="details/[imdbId]"
+            options={({ navigation }) => ({
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Ionicons
+                    name="close"
+                    size={24}
+                    color="#fff"
+                    style={{ padding: 16 }}
+                  />
+                </TouchableOpacity>
+              ),
+              headerTitle: "",
+              headerTransparent: true,
+              headerShadowVisible: false,
+              presentation: "modal",
+            })}
+          />
+        </Stack>
+      </FavoritesProvider>
     </ThemeProvider>
   );
 }

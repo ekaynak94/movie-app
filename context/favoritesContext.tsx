@@ -5,13 +5,13 @@ import React, {
   useContext,
   ReactNode,
 } from "react";
-import { MovieDetails } from "../types/movieTypes";
+import { Movie } from "../types/movieTypes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type FavoritesContextType = {
-  favorites: { [id: string]: MovieDetails }; // Store favorites as an object with movie IDs as keys
+  favorites: { [id: string]: Movie }; // Store favorites as an object with movie IDs as keys
   isFavorite: (id: string) => boolean;
-  addFavorite: (movie: MovieDetails) => void;
+  addFavorite: (movie: Movie) => void;
   removeFavorite: (id: string) => void;
 };
 
@@ -27,9 +27,7 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   // Initialize an empty object to store the favorites
-  const [favorites, setFavorites] = useState<{ [id: string]: MovieDetails }>(
-    {}
-  );
+  const [favorites, setFavorites] = useState<{ [id: string]: Movie }>({});
 
   // Load favorites from AsyncStorage when the app starts
   useEffect(() => {
@@ -71,7 +69,7 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({
     return !!favorites[id]; // Check if the movie ID exists in the favorites object
   };
 
-  const addFavorite = (movie: MovieDetails) => {
+  const addFavorite = (movie: Movie) => {
     setFavorites((prevFavorites) => ({
       ...prevFavorites,
       [movie.imdbID]: movie, // Add the movie with its ID as the key

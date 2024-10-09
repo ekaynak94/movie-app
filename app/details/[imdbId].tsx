@@ -15,6 +15,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { getMovieDetails } from "@/api/movieService";
 import { Movie, MovieDetails } from "@/types/movieTypes";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import { useFavorites } from "@/context/favoritesContext";
 
 export default function Details() {
   const { imdbID, Title, Poster } = useLocalSearchParams<Partial<Movie>>();
@@ -23,6 +24,10 @@ export default function Details() {
   );
   const [loading, setLoading] = useState(true);
   const color = useThemeColor({}, "text");
+
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+
+  const isMovieFavorite = isFavorite(imdbID as string);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -42,6 +47,15 @@ export default function Details() {
     fetchDetails();
   }, [imdbID]);
 
+  // Toggle the favorite status
+  const handleFavoritePress = () => {
+    if (isMovieFavorite) {
+      removeFavorite(imdbID as string);
+    } else {
+      addFavorite({ imdbID, Title, Poster } as Movie);
+    }
+  };
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#fff", dark: "#000" }}
@@ -59,9 +73,9 @@ export default function Details() {
           <ThemedText type="title" style={styles.title}>
             {Title}
           </ThemedText>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={handleFavoritePress}>
             <Ionicons
-              name="bookmark-outline"
+              name={isMovieFavorite ? "bookmark" : "bookmark-outline"}
               size={24}
               color={color}
               style={{ padding: 8 }}
