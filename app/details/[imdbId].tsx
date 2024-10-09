@@ -1,12 +1,43 @@
-import { Image, StyleSheet } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useState, useEffect } from "react";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { Movie } from "@/types/movieTypes";
+import { getMovieDetails } from "@/api/movieService";
+import { Movie, MovieDetails } from "@/types/movieTypes";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function Details() {
   const { imdbID, Title, Poster } = useLocalSearchParams<Partial<Movie>>();
+  const [movieDetails, setMovieDetails] = useState<MovieDetails | undefined>(
+    undefined
+  );
+  const [loading, setLoading] = useState(true);
+  const color = useThemeColor({}, "text");
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const details = await getMovieDetails(imdbID as string);
+        setMovieDetails(details);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchDetails();
+  }, [imdbID]);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#fff", dark: "#000" }}
@@ -20,8 +51,38 @@ export default function Details() {
       }
     >
       <ThemedView style={styles.content}>
-        <ThemedText>{Title}</ThemedText>
-        <ThemedText>{imdbID}</ThemedText>
+        <View style={styles.titleContainer}>
+          <ThemedText type="title" style={styles.title}>
+            {Title}
+          </ThemedText>
+          <TouchableOpacity onPress={() => {}}>
+            <Ionicons
+              name="bookmark-outline"
+              size={24}
+              color={color}
+              style={{ padding: 8 }}
+            />
+          </TouchableOpacity>
+        </View>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <>
+            <View style={styles.ratingContainer}>
+              <Ionicons name="star" size={20} color="gold" />
+              <ThemedText style={styles.ratingText} type="defaultSemiBold">
+                {`${movieDetails?.imdbRating}/10 IMDb`}
+              </ThemedText>
+            </View>
+
+            <ThemedText style={styles.descriptionTitle} type="subtitle">
+              Description
+            </ThemedText>
+            <ThemedText style={styles.descriptionText} type="default">
+              {movieDetails?.Plot}
+            </ThemedText>
+          </>
+        )}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -37,5 +98,29 @@ const styles = StyleSheet.create({
   },
   content: {
     minHeight: 320,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginVertical: 16,
+  },
+  title: { maxWidth: "75%", fontSize: 24 },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  ratingText: {
+    fontSize: 16,
+    marginLeft: 5,
+  },
+  descriptionTitle: {
+    fontSize: 18,
+    marginTop: 10,
+  },
+  descriptionText: {
+    fontSize: 16,
+    marginTop: 5,
   },
 });
