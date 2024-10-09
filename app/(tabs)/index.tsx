@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
+    marginTop: 16,
     paddingHorizontal: 16,
   },
   emptyText: {
