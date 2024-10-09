@@ -1,5 +1,6 @@
 import React from "react";
-import { View, ImageBackground, StyleSheet, Pressable } from "react-native";
+import { View, Image, StyleSheet, Pressable } from "react-native";
+import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Movie } from "@/types/movieTypes";
 import { Link } from "expo-router";
@@ -18,17 +19,26 @@ const MovieListItem: React.FC<MovieListItemProps> = ({ movie }) => {
       }}
     >
       <Pressable style={styles.container}>
-        <ImageBackground
-          source={{ uri: movie.Poster }}
-          style={styles.imageBackground}
-          imageStyle={styles.image} // To style the image itself
-        >
-          <View style={styles.overlay}>
-            <ThemedText type="title" lightColor="#e8e8e8" darkColor="#fff">
-              {movie.Title}
-            </ThemedText>
-          </View>
-        </ImageBackground>
+        <Image source={{ uri: movie.Poster }} style={styles.poster} />
+
+        <View style={styles.content}>
+          <ThemedText
+            style={styles.title}
+            lightColor="#000"
+            darkColor="#fff"
+            type="title"
+          >
+            {movie.Title}
+          </ThemedText>
+          <ThemedText
+            style={styles.year}
+            lightColor="#777"
+            darkColor="#ccc"
+            type="default"
+          >
+            {movie.Year}
+          </ThemedText>
+        </View>
       </Pressable>
     </Link>
   );
@@ -36,23 +46,27 @@ const MovieListItem: React.FC<MovieListItemProps> = ({ movie }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: 200,
-    backgroundColor: "red",
-    borderRadius: 15,
-    overflow: "hidden",
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 16,
-  },
-  imageBackground: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  image: {
-    borderRadius: 15,
-  },
-  overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     padding: 10,
+  },
+  poster: {
+    width: 100,
+    height: 150,
+    borderRadius: 8,
+    marginRight: 10,
+  },
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    gap: 12,
+  },
+  title: {
+    fontSize: 18,
+  },
+  year: {
+    fontSize: 14,
   },
 });
 

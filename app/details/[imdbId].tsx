@@ -18,7 +18,8 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { useFavorites } from "@/context/favoritesContext";
 
 export default function Details() {
-  const { imdbID, Title, Poster } = useLocalSearchParams<Partial<Movie>>();
+  const { imdbID, Title, Poster, Year } =
+    useLocalSearchParams<Partial<Movie>>();
   const [movieDetails, setMovieDetails] = useState<MovieDetails | undefined>(
     undefined
   );
@@ -52,7 +53,7 @@ export default function Details() {
     if (isMovieFavorite) {
       removeFavorite(imdbID as string);
     } else {
-      addFavorite({ imdbID, Title, Poster } as Movie);
+      addFavorite({ imdbID, Title, Poster, Year } as Movie);
     }
   };
 
@@ -69,10 +70,16 @@ export default function Details() {
       }
     >
       <ThemedView style={styles.content}>
-        <View style={styles.titleContainer}>
-          <ThemedText type="title" style={styles.title}>
-            {Title}
-          </ThemedText>
+        <View style={styles.contentTop}>
+          <View style={styles.titleContainer}>
+            <ThemedText type="title" style={styles.title}>
+              {Title}
+            </ThemedText>
+            <ThemedText type="default" style={styles.year}>
+              {Year}
+            </ThemedText>
+          </View>
+
           <TouchableOpacity onPress={handleFavoritePress}>
             <Ionicons
               name={isMovieFavorite ? "bookmark" : "bookmark-outline"}
@@ -117,13 +124,22 @@ const styles = StyleSheet.create({
   content: {
     minHeight: 320,
   },
-  titleContainer: {
+  contentTop: {
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
     marginVertical: 16,
   },
-  title: { maxWidth: "75%", fontSize: 24 },
+  titleContainer: {
+    flex: 1,
+    justifyContent: "center",
+    gap: 12,
+    maxWidth: "75%",
+  },
+  year: {
+    fontSize: 16,
+  },
+  title: { fontSize: 24 },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
