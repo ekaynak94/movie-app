@@ -10,6 +10,7 @@ The UI design is influenced by [this file](https://www.figma.com/community/file/
 - **View Details**: Click on a movie to see additional details such as IMDb rating and description.
 - **Favorite Movies**: Save and manage a list of your favorite movies.
 - **Persistent Favorites**: Your favorited movies are saved locally, even after closing the app.
+- **Color Theme Support**: The app supports light and dark themes for a better user experience in different lighting conditions.
 
 ## Screenshots 📸
 
