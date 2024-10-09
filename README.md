@@ -2,12 +2,18 @@
 
 This is a mobile movie app built with [Expo](https://expo.dev/), allowing users to search for movies, view details, and save their favorite movies. The app leverages the [Movie Database Alternative API](https://rapidapi.com/rapidapi/api/movie-database-alternative) for fetching movie data.
 
+The UI design is influenced by [this file](https://www.figma.com/community/file/1054431643740926668)
+
 ## Features ✨
 
 - **Search Movies**: Easily search for your favorite movies by title.
 - **View Details**: Click on a movie to see additional details such as IMDb rating and description.
 - **Favorite Movies**: Save and manage a list of your favorite movies.
 - **Persistent Favorites**: Your favorited movies are saved locally, even after closing the app.
+
+## Screenshots 📸
+
+![App Screenshot](./assets/images/screenshot.png)
 
 ## Installation & Setup 🛠️
 
