@@ -1,3 +1,5 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { TouchableOpacity } from "react-native";
 import {
   DarkTheme,
   DefaultTheme,
@@ -36,9 +38,22 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="details/[imdbId]"
-          options={{
-            headerShown: false,
-          }}
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons
+                  name="close"
+                  size={24}
+                  color="#fff"
+                  style={{ padding: 16 }}
+                />
+              </TouchableOpacity>
+            ),
+            headerTitle: "",
+            headerTransparent: true,
+            headerShadowVisible: false,
+            presentation: "modal",
+          })}
         />
       </Stack>
     </ThemeProvider>
