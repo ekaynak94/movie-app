@@ -67,13 +67,7 @@ const SearchScreen: React.FC = () => {
         <FlatList
           data={searchParams.results}
           keyExtractor={(item) => item.imdbID}
-          renderItem={({ item }) => (
-            <MovieListItem
-              title={item.Title}
-              posterUrl={item.Poster}
-              onPress={() => {}}
-            />
-          )}
+          renderItem={({ item }) => <MovieListItem movie={item} />}
           onEndReached={onEndReached} // Load more movies when reaching the end of the list
           onEndReachedThreshold={0.5} // Load when 50% of the list is reached
           ListFooterComponent={

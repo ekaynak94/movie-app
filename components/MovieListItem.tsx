@@ -1,37 +1,36 @@
 import React from "react";
-import {
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, ImageBackground, StyleSheet, Pressable } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
+import { Movie } from "@/types/movieTypes";
+import { Link } from "expo-router";
 
 interface MovieListItemProps {
-  title: string;
-  posterUrl: string;
-  onPress: () => void;
+  movie: Movie;
 }
 
-const MovieListItem: React.FC<MovieListItemProps> = ({
-  title,
-  posterUrl,
-  onPress,
-}) => {
+const MovieListItem: React.FC<MovieListItemProps> = ({ movie }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <ImageBackground
-        source={{ uri: posterUrl }}
-        style={styles.imageBackground}
-        imageStyle={styles.image} // To style the image itself
-      >
-        <View style={styles.overlay}>
-          <ThemedText type="title" lightColor="#e8e8e8" darkColor="#fff">
-            {title}
-          </ThemedText>
-        </View>
-      </ImageBackground>
-    </TouchableOpacity>
+    <Link
+      asChild
+      href={{
+        pathname: "../details/[imdbId]",
+        params: { ...movie },
+      }}
+    >
+      <Pressable style={styles.container}>
+        <ImageBackground
+          source={{ uri: movie.Poster }}
+          style={styles.imageBackground}
+          imageStyle={styles.image} // To style the image itself
+        >
+          <View style={styles.overlay}>
+            <ThemedText type="title" lightColor="#e8e8e8" darkColor="#fff">
+              {movie.Title}
+            </ThemedText>
+          </View>
+        </ImageBackground>
+      </Pressable>
+    </Link>
   );
 };
 
@@ -39,6 +38,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 200,
+    backgroundColor: "red",
     borderRadius: 15,
     overflow: "hidden",
     marginBottom: 16,
