@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -28,8 +29,11 @@ export default function Details() {
       try {
         const details = await getMovieDetails(imdbID as string);
         setMovieDetails(details);
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
+      } catch {
+        Alert.alert(
+          "Error",
+          "Failed to fetch movie details. Please try again."
+        );
       } finally {
         setLoading(false); // Set loading to false after fetching
       }
