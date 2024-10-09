@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import {
+  View,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+  Alert,
+} from "react-native";
 import { ThemedSafeAreaView } from "@/components/ThemedView";
 import MovieListItem from "@/components/MovieListItem";
 import { getMovies } from "@/api/movieService";
@@ -40,6 +46,8 @@ const SearchScreen: React.FC = () => {
       const hasMore = results.length < Number(response.totalResults);
 
       setSearchParams({ query, page, results, hasMore });
+    } catch {
+      Alert.alert("Error", "Failed to fetch movies. Please try again.");
     } finally {
       setIsLoading(false);
     }
