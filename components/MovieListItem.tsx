@@ -26,7 +26,9 @@ const MovieListItem: React.FC<MovieListItemProps> = ({
         imageStyle={styles.image} // To style the image itself
       >
         <View style={styles.overlay}>
-          <ThemedText type="title">{title}</ThemedText>
+          <ThemedText type="title" lightColor="#e8e8e8" darkColor="#fff">
+            {title}
+          </ThemedText>
         </View>
       </ImageBackground>
     </TouchableOpacity>
