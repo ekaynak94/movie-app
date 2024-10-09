@@ -1,50 +1,69 @@
-# Welcome to your Expo app 👋
+# Movie App 🎬
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a mobile movie app built with [Expo](https://expo.dev/), allowing users to search for movies, view details, and save their favorite movies. The app leverages the [Movie Database Alternative API](https://rapidapi.com/rapidapi/api/movie-database-alternative) for fetching movie data.
 
-## Get started
+## Features ✨
 
-1. Install dependencies
+- **Search Movies**: Easily search for your favorite movies by title.
+- **View Details**: Click on a movie to see additional details such as IMDb rating and description.
+- **Favorite Movies**: Save and manage a list of your favorite movies.
+- **Persistent Favorites**: Your favorited movies are saved locally, even after closing the app.
 
-   ```bash
-   npm install
-   ```
+## Installation & Setup 🛠️
 
-2. Start the app
+### Prerequisites
 
-   ```bash
-    npx expo start
-   ```
+Make sure you have the following installed:
 
-In the output, you'll find options to open the app in a
+- [Node.js](https://nodejs.org/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+- [Yarn](https://yarnpkg.com/) or npm
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Clone the Repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/ekaynak94/movie-app.git
+cd movie-app
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Installation & Setup 🛠️
 
-## Learn more
+### Install Dependencies
 
-To learn more about developing your project with Expo, look at the following resources:
+Run the following command to install the required packages:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+yarn install
+```
 
-## Join the community
+or using npm:
 
-Join our community of developers creating universal apps.
+```bash
+npm install
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Setup Environment Variables
+
+Run the following command to install the required packages:
+
+```.env
+EXPO_PUBLIC_RAPIDAPI_KEY=your-rapid-api-key-here
+```
+
+### Run the App
+
+After setting up, run the app with Expo:
+
+```bash
+yarn start
+```
+
+or using npm:
+
+```bash
+npm start
+```
+
+This will start the Expo development server, and you can scan the QR code with your phone to launch the app or run it in a simulator.
+
+Enjoy!!
