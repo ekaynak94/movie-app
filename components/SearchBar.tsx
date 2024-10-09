@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -10,36 +10,37 @@ import {
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 type SearchBarProps = {
-  query: string;
-  onQueryChange: (query: string) => void;
-  onSearch: () => void;
+  onSearch: (query: string) => void;
+  disabled?: boolean;
   lightColor?: string;
   darkColor?: string;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({
-  query,
-  onQueryChange,
   onSearch,
+  disabled = false,
   lightColor,
   darkColor,
 }) => {
+  const [input, setInput] = useState("");
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return (
     <View style={[styles.container, { borderColor: color }]}>
       <TextInput
+        editable={!disabled}
         style={[{ color }, styles.input]}
         placeholder="Search for movies..."
-        value={query}
-        onChangeText={onQueryChange}
-        onSubmitEditing={onSearch} // Trigger search when the user presses enter
+        value={input}
+        onChangeText={setInput}
+        onSubmitEditing={() => onSearch(input)} // Trigger search when the user presses enter
       />
 
       <TouchableOpacity
+        disabled={disabled}
         onPress={() => {
           Keyboard.dismiss();
-          onSearch();
+          onSearch(input);
         }}
         activeOpacity={0.8}
       >
